@@ -1,0 +1,60 @@
+@import './variables.scss';
+
+.pokemon-card {
+  position: relative;
+  
+  figure {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    img {
+      width: 250px;
+    }
+
+    .invisible {
+      opacity: 0;
+    }
+
+    .release {
+      animation: release 2s ease-in-out;
+    }
+
+    figcaption {
+      p {
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+    }
+  }
+  
+  .disappear {
+    animation: pokeball-disappear 1s ease-in;
+    animation-fill-mode: forwards;
+  }
+
+  .pokeball {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: $pokeball-size;
+    position: absolute;
+  }
+}
+
+@keyframes release {
+  0%{opacity: 0; filter: brightness(2) contrast(0); transform: scale(0)}
+  50%{opacity: 1; filter: brightness(2) contrast(0); transform: scale(1)}
+  100%{opacity: 1; filter: brightness(1) contrast(1); transform: scale(1)}
+}
+
+@keyframes pokeball-disappear {
+  0%{opacity: 1; transform: scale(1)}
+  100%{opacity: 0; transform: scale(0)}
+}

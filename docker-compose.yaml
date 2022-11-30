@@ -1,0 +1,22 @@
+version: '3'
+services:
+  client:
+    build:
+      context: client
+      dockerfile: Dockerfile.dev
+    container_name: pokedex-dev-client
+    ports:
+      - 8080:8080
+    volumes:
+      - './client:/usr/src/app'
+      - '/usr/src/app/node_modules'
+  server:
+    build:
+      context: server
+      dockerfile: Dockerfile.dev
+    container_name: pokedex-dev-server
+    ports:
+      - 3000:3000
+    volumes:
+      - './server:/usr/src/app'
+        
