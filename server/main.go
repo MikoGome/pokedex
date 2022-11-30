@@ -98,10 +98,11 @@ func getPokemon(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	PORT := os.Getenv("PORT")
-	if PORT == "" {
-		PORT = fmt.Sprint(3000)
-	}
+	PORT := fmt.Sprint(3000)
+	// PORT := os.Getenv("PORT")
+	// if PORT == "" {
+	// 	PORT = fmt.Sprint(3000)
+	// }
 	http.Handle("/", http.FileServer(http.Dir("./build/")))
 	http.HandleFunc("/api/pokemons", getPokemons)
 	http.HandleFunc("/api/pokemon/", getPokemon)
