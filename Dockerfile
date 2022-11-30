@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY server .
 
-RUN go build server/main.go
+RUN go build main.go
 
 
 
@@ -19,10 +19,10 @@ COPY client/package*.json .
 
 RUN npm install
 
-COPY client client
+COPY client .
 
-COPY --from=builder /usr/src/app server
+COPY --from=builder /usr/src/app .
 
 RUN npm run build
 
-#ENTRYPOINT ./main
+ENTRYPOINT ./main
