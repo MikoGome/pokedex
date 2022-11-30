@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
-	"os"
+	// "os"
 )
 
 type Pokemon struct {
