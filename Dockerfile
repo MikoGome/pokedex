@@ -2,6 +2,8 @@ FROM golang:1.18-alpine AS builder
 
 WORKDIR /usr/src/app
 
+EXPOSE 3000
+
 COPY server .
 
 RUN go build main.go
