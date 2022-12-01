@@ -6,21 +6,29 @@ import '../styles/Home.scss';
 import { titleCase } from '../utils/helper';
 
 const Home:React.FC = ():JSX.Element => {
+  const pokemons = useRef();
   const [pokemon, setPokemon] = useState([]);
+  const [search, setSearch] = useState('');
+
   useEffect(() => {
-    if(pokemon.length) return;
     fetch('/api/pokemons')
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        setPokemon(data)
+        pokemons.current = data;
+        setPokemon(data);
       });
 
     }, []);
+
+  useEffect(() => {
+    if(!pokemons.current) return;
+    setPokemon(pokemons.current.filter((el, index):boolean => String(index + 1).startsWith(search) || el.name.startsWith(search)))
+  }, [search])
     
   const navigate: (id:string)=>void = useNavigate();
 
-  const {current: observer}:{current:IntersectionObserver} = useRef(new IntersectionObserver((entries) => {
+  const intersectionObserver:React.MutableRefObject<IntersectionObserver> = useRef(new IntersectionObserver((entries) => {
     const delay = 100;
     entries.forEach((entry, index) => {
       if(entry.isIntersecting) {
@@ -28,7 +36,7 @@ const Home:React.FC = ():JSX.Element => {
           entry.target.classList.add('release');
           entry.target.classList.remove('invisible');
         }, index * delay);
-        observer.unobserve(entry.target);
+        intersectionObserver.current.unobserve(entry.target);
       }
     })
   }, {
@@ -45,7 +53,7 @@ const Home:React.FC = ():JSX.Element => {
         sprite={sprite} 
         remove={remove} 
         handleClick={():void => navigate('pokemon/'+id)}
-        observer={observer}
+        observer={intersectionObserver.current}
       />
     )
   });
@@ -58,7 +66,8 @@ const Home:React.FC = ():JSX.Element => {
 
   return (
     <div className="home">
-      <h1>Pokedex</h1>
+      <h1>Pokepedia</h1>
+      <input value={search} onChange={(e) => setSearch(e.target.value)}/>
       <div id="pokemon-grid">
         {pokemonCard}
       </div>

@@ -10,6 +10,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    position: relative;
 
     img {
       width: 250px;
@@ -21,6 +22,13 @@
 
     .release {
       animation: release 2s ease-in-out;
+      filter: contrast(0) sepia(100%) hue-rotate(0deg) saturate(2000%);
+      animation-fill-mode: forwards;
+    }
+    
+    .show {
+      animation: show 2s ease-in-out;
+      animation-fill-mode: forwards;
     }
 
     figcaption {
@@ -29,6 +37,12 @@
         margin: 0;
         text-align: center;
       }
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      
     }
   }
   
@@ -49,12 +63,18 @@
 }
 
 @keyframes release {
-  0%{opacity: 0; filter: brightness(2) contrast(0); transform: scale(0)}
-  50%{opacity: 1; filter: brightness(2) contrast(0); transform: scale(1)}
-  100%{opacity: 1; filter: brightness(1) contrast(1); transform: scale(1)}
+  0%{opacity: 0; transform: scale(0)}
+  50%{opacity: 1; transform: scale(1)}
+  100%{opacity: 0; transform: scale(1)}
 }
 
 @keyframes pokeball-disappear {
   0%{opacity: 1; transform: scale(1)}
   100%{opacity: 0; transform: scale(0)}
+}
+
+@keyframes show {
+  0%{opacity: 0}
+  50%{opacity: 0}
+  100%{opacity: 1}
 }
