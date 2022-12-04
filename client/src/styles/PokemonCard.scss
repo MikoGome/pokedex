@@ -23,11 +23,7 @@
 
     .release {
       animation: release 2s ease-in-out;
-<<<<<<< HEAD
-      filter: contrast(0) sepia(1) hue-rotate(0deg) saturate(200);
-=======
       filter: contrast(0) sepia(100%) hue-rotate(0deg) saturate(300) drop-shadow(0px 0px 10px rgb(255, 98, 0));
->>>>>>> 3307b95b5b2d72d82d24b9f7a09fc11921783c7d
       animation-fill-mode: forwards;
     }
     
