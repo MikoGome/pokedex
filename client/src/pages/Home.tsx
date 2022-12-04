@@ -23,7 +23,7 @@ const Home:React.FC = ():JSX.Element => {
 
   useEffect(() => {
     if(!pokemons.current) return;
-    setPokemon(pokemons.current.filter((el, index):boolean => String(index + 1).startsWith(search) || el.name.startsWith(search)))
+    setPokemon(pokemons.current.filter((el, index):boolean => String(index + 1).startsWith(search) || el.name.startsWith(search.toLowerCase())));
   }, [search])
     
   const navigate: (id:string)=>void = useNavigate();
