@@ -50,19 +50,12 @@ const Home:React.FC = ():JSX.Element => {
         key={"pokemon_card_"+index} 
         name={titleCase(name)} 
         id={id} 
-        sprite={sprite} 
-        remove={remove} 
+        sprite={sprite}
         handleClick={():void => navigate('pokemon/'+id)}
         observer={intersectionObserver.current}
       />
     )
   });
-
-
-
-  function remove(target:HTMLDivElement):void {
-    target.remove();
-  }
 
   return (
     <div className="home">
