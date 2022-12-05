@@ -5,7 +5,7 @@ module.exports = {
   entry: path.resolve('src', 'index.tsx'),
   output: {
     path: path.resolve('build'),
-    filename: 'bundle.js'
+    filename: 'bundle.[contentHash].js'
   },
   devtool: 'inline-source-map',
   plugins: [
