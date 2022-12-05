@@ -25,6 +25,7 @@
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@types/react": "^18.0.26",
     "css-loader": "^6.7.1",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",

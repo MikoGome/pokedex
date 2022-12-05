@@ -5,25 +5,31 @@ interface props {
   name: string,
   sprite: string,
   id: string,
-  handleClick: (id:string)=>void,
+  handleClick: ()=>void,
   observer: IntersectionObserver
 }
 
 const PokemonCard:React.FC<props> = (props):JSX.Element => {
   const {name, sprite, id, handleClick, observer} = props;
-  const pokemonCard:React.MutableRefObject<HTMLDivElement> = useRef();
-  const imagePokemon:React.MutableRefObject<HTMLImageElement> = useRef();
-  const imageEff:React.MutableRefObject<HTMLImageElement> = useRef();
-
-  const figure:React.MutableRefObject<HTMLElement> = useRef();
+  const pokemonCard = useRef<HTMLDivElement>(null);
+  const imagePokemon = useRef<HTMLImageElement>(null);
+  const imageEff = useRef<HTMLImageElement>(null);
+  const figure= useRef<HTMLDivElement>(null);
 
   function animation() {
+    if(!(imagePokemon.current && figure.current)) return;
     figure.current.classList.add('disappear');
     imagePokemon.current.classList.add('show');
     imagePokemon.current.classList.remove('invisible');
   }
 
+  function remove():void {
+    if(!pokemonCard.current) return;
+    pokemonCard.current.remove()
+  }
+
   useEffect(() => {
+    if(!imageEff.current) return;
     observer.observe(imageEff.current);
   }, []);
 
@@ -37,7 +43,7 @@ const PokemonCard:React.FC<props> = (props):JSX.Element => {
           loading="lazy" 
           ref={imagePokemon} 
           draggable="false" 
-          onError={():void => pokemonCard.current.remove()}
+          onError={remove}
         />
         <img 
           src={sprite} 
@@ -46,8 +52,8 @@ const PokemonCard:React.FC<props> = (props):JSX.Element => {
           ref={imageEff} 
           draggable="false" 
           onAnimationStart={animation} 
-          onAnimationEnd={(e):void => e.target.remove()} 
-          onError={():void => pokemonCard.current.remove()}
+          onAnimationEnd={(e):void => e.currentTarget.remove()} 
+          onError={remove}
         />
         <figcaption>
           <p>#{id}</p>

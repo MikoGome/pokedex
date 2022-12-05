@@ -5,10 +5,16 @@ import '../styles/Home.scss';
 
 import { titleCase } from '../utils/helper';
 
+interface Pokemon{
+  id: string, 
+  name: string,
+  sprite: string
+}
+
 const Home:React.FC = ():JSX.Element => {
-  const pokemons = useRef();
-  const [pokemon, setPokemon] = useState([]);
-  const [search, setSearch] = useState('');
+  const pokemons = useRef<Pokemon[]>();
+  const [pokemon, setPokemon] = useState<Pokemon[]>([]);
+  const [search, setSearch] = useState<string>('');
 
   useEffect(() => {
     fetch('/api/pokemons')
@@ -23,7 +29,8 @@ const Home:React.FC = ():JSX.Element => {
 
   useEffect(() => {
     if(!pokemons.current) return;
-    setPokemon(pokemons.current.filter((el, index):boolean => String(index + 1).startsWith(search) || el.name.startsWith(search.toLowerCase())));
+    const noCaseSearch = search.toLowerCase();
+    setPokemon(pokemons.current.filter((el, index):boolean => String(index + 1).startsWith(noCaseSearch) || el.name.startsWith(noCaseSearch)));
   }, [search])
     
   const navigate: (id:string)=>void = useNavigate();
@@ -43,26 +50,26 @@ const Home:React.FC = ():JSX.Element => {
     threshold: 1
   }));
 
-  const pokemonCard = pokemon.map((el, index) => {
-    const {name, id, sprite}:{name:string, id:string, sprite:string} = el;
-    return (
-      <PokemonCard 
-        key={"pokemon_card_"+index} 
-        name={titleCase(name)} 
-        id={id} 
-        sprite={sprite}
-        handleClick={():void => navigate('pokemon/'+id)}
-        observer={intersectionObserver.current}
-      />
-    )
-  });
-
   return (
     <div className="home">
-      <h1>Pokepedia</h1>
-      <input value={search} onChange={(e) => setSearch(e.target.value)}/>
+      <header>
+        <h1>Pokepedia</h1>
+        <input value={search} onChange={(e) => setSearch(e.target.value)}/>
+      </header>
       <div id="pokemon-grid">
-        {pokemonCard}
+        {pokemon.map((el, index) => {
+          const {name, id, sprite}:{name:string, id:string, sprite:string} = el;
+          return (
+            <PokemonCard 
+              key={"pokemon_card_"+index} 
+              name={titleCase(name)} 
+              id={id} 
+              sprite={sprite}
+              handleClick={():void => navigate('pokemon/'+id)}
+              observer={intersectionObserver.current}
+            />
+          )
+          })}
       </div>
     </div>
   )
