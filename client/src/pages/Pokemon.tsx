@@ -10,6 +10,7 @@ const Pokemon: React.FC = (): JSX.Element => {
   const pokemonCry = useRef<()=>void>(
     (function cry(id):()=>void {
       const audio = new Audio(`https://pokemoncries.com/cries/${id}.mp3`);
+      audio.volume = 0.1;
       return () => audio.play();
     })(id)
   );

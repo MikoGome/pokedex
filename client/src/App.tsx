@@ -5,7 +5,7 @@ import Pokemon from './pages/Pokemon';
 
 import "./styles/App.scss"
 
-const App: React.FC = (): JSX.Element => {
+const App: React.FC = ():JSX.Element => {
 
   return (
     <Routes>

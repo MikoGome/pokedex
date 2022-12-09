@@ -25,7 +25,7 @@ const PokemonCard:React.FC<props> = (props):JSX.Element => {
 
   function remove():void {
     if(!pokemonCard.current) return;
-    pokemonCard.current.remove()
+    pokemonCard.current.remove();
   }
 
   useEffect(() => {
