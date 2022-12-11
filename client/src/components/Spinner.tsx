@@ -1,11 +1,12 @@
 import React from "react";
+import '../styles/Spinner.scss';
 
-const PokeballLoader = () => {
+const Spinner = () => {
   return (
-    <div className="loading">
+    <div className="spinner">
       <div className="loading-pokeball center spin"></div>
     </div>
   )
 };
 
-export default PokeballLoader;
+export default Spinner;

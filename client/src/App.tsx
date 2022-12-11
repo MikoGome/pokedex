@@ -1,17 +1,21 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
-import Home from './pages/Home';
-import Pokemon from './pages/Pokemon';
+const Home = React.lazy(() => import('./pages/Home'));
+const Pokemon = React.lazy(() => import('./pages/Pokemon'));
+
+import Spinner from './components/Spinner';
 
 import "./styles/App.scss"
 
 const App: React.FC = ():JSX.Element => {
 
   return (
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/pokemon/:id' element={<Pokemon/>}/>
-    </Routes>
+    <React.Suspense fallback={<Spinner/>}>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/pokemon/:id' element={<Pokemon/>}/>
+      </Routes>
+    </React.Suspense>
   )
 }
 

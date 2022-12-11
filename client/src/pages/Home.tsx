@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
 import PokemonCard from '../components/PokemonCard';
-import PokeballLoader from '../components/PokeballLoader';
+import Spinner from '../components/Spinner';
 import '../styles/Home.scss';
 
 import { titleCase } from '../utils/helper';
@@ -68,7 +68,7 @@ const Home:React.FC = ():JSX.Element => {
       </header>
       <main>
         {loading 
-          ? <PokeballLoader />
+          ? <Spinner />
           : <div id="pokemon-grid">{
               pokemon.map((el, index) => {
               const {name, id, sprite}:{name:string, id:string, sprite:string} = el;
