@@ -6,11 +6,12 @@ interface props {
   sprite: string,
   id: string,
   handleClick: ()=>void,
-  observer: IntersectionObserver
+  observer: IntersectionObserver,
+  pagination?: IntersectionObserver
 }
 
 const PokemonCard:React.FC<props> = (props):JSX.Element => {
-  const {name, sprite, id, handleClick, observer} = props;
+  const {name, sprite, id, handleClick, observer, pagination} = props;
   const pokemonCard = useRef<HTMLDivElement>(null);
   const imagePokemon = useRef<HTMLImageElement>(null);
   const imageEff = useRef<HTMLImageElement>(null);
@@ -31,6 +32,9 @@ const PokemonCard:React.FC<props> = (props):JSX.Element => {
   useEffect(() => {
     if(!imageEff.current) return;
     observer.observe(imageEff.current);
+    if(pagination) {
+      pagination.observe(pokemonCard.current);
+    }
   }, []);
 
   return (

@@ -18,6 +18,7 @@ const Home:React.FC = ():JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
   const [search, setSearch] = useState<string>('');
+  const [pagination, setPagination] = useState<number>(50);
 
   useEffect(() => {
     fetch('/api/pokemons')
@@ -44,7 +45,7 @@ const Home:React.FC = ():JSX.Element => {
     
   const navigate: (id:string)=>void = useNavigate();
 
-  const intersectionObserver:React.MutableRefObject<IntersectionObserver> = useRef(
+  const intersectionObserver = useRef<IntersectionObserver>(
     new IntersectionObserver((entries) => {
       const delay = 100;
       entries.forEach((entry, index) => {
@@ -58,7 +59,20 @@ const Home:React.FC = ():JSX.Element => {
       });
     }, {
       threshold: 1
-    }));
+    })
+  );
+
+  const paginationObserver = useRef<IntersectionObserver>(
+    new IntersectionObserver((entries) => {
+      const lastEntry = entries[0];
+      if(lastEntry.isIntersecting) {
+        paginationObserver.current.disconnect();
+        setPagination((prev) => prev + 50);
+      } 
+    }, {
+      rootMargin: '0px 0px 200px 0px'
+    })
+  );
 
   return (
     <div className="home">
@@ -71,17 +85,30 @@ const Home:React.FC = ():JSX.Element => {
           ? <Spinner />
           : <div id="pokemon-grid">{
               pokemon.map((el, index) => {
-              const {name, id, sprite}:{name:string, id:string, sprite:string} = el;
-              return (
-                <PokemonCard 
-                  key={"pokemon_card_"+index} 
-                  name={titleCase(name)} 
-                  id={id} 
-                  sprite={sprite}
-                  handleClick={():void => navigate('pokemon/'+id)}
-                  observer={intersectionObserver.current}
-                />
-              )
+                if(index >= pagination) return null;
+                const {name, id, sprite}:{name:string, id:string, sprite:string} = el;
+                if(index === pagination - 1) return (
+                  <PokemonCard 
+                    key={"pokemon_card_"+index} 
+                    name={titleCase(name)} 
+                    id={id} 
+                    sprite={sprite}
+                    handleClick={():void => navigate('pokemon/'+id)}
+                    observer={intersectionObserver.current}
+                    pagination={paginationObserver.current}
+                  />
+                )
+
+                return (
+                  <PokemonCard 
+                    key={"pokemon_card_"+index} 
+                    name={titleCase(name)} 
+                    id={id} 
+                    sprite={sprite}
+                    handleClick={():void => navigate('pokemon/'+id)}
+                    observer={intersectionObserver.current}
+                  />
+                )
               })
             }
             </div>
